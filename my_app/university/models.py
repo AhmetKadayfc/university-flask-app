@@ -103,6 +103,10 @@ class Teaches(db.Model):
         db.ForeignKeyConstraint(['course_id','sec_id','semester','year'],['section.course_id','section.sec_id','section.semester','section.year'],ondelete='CASCADE'),
     )
 
+    def __init__(self,instructor,section):
+        self.instructor = instructor
+        self.section = section
+
     def __repr__(self):
         return '<Teaches %s-%d>'%(self.ID,self.course_id,self.sec_id,self.semester),(self.year)
 

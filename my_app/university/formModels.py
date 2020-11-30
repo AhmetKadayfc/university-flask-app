@@ -21,3 +21,7 @@ class SectionForm(Form):
     year =  IntegerField('Year', [validators.required(), validators.length(min=1701,max=2100)])
     classroom = SelectField('Classroom', coerce=str)
     time_slot_id = TextField('Time Slot', [validators.required()])
+
+class TeachesCreate(Form):
+    instructor = SelectField('Instructor',validators=[InputRequired()],coerce=str)
+    section = SelectField('Section',validators=[InputRequired()],coerce=str)

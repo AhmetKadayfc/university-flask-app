@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify,render_template,flash,redirect,url_for
 from my_app import app,db
 from my_app.university.models import Classroom,Department,Course,Instructor,Section,Teaches,Student,Takes,Advisor,Time_Slot,Prereq
-from my_app.university.formModels import CourseForm, InstructorForm, SectionForm
+from my_app.university.formModels import CourseForm, InstructorForm, SectionForm,TeachesCreate
 import ast
 
 university = Blueprint('university',__name__)
@@ -169,6 +169,26 @@ def sections(page=1):
 
 
 #teaches
+@university.route('/teaches-create',methods=['GET','POST'])
+def teaches_create():
+    form = TeachesCreate(request.form, csrf_enable=False)
+    instructors = [(i.ID,i.name) for i in Instructor.query.all()]
+    sections = [([s.course_id,s.sec_id,s.semester,str(s.year)],s.course_id) for s in Section.query.all()]
+
+    form.instructor.choices = instructors
+    form.section.choices = sections
+    if request.method == 'POST':
+        section_Keys = ast.literal_eval(request.form.get('section'))
+        instructor = Instructor.query.get_or_404(request.form.get('instructor'))
+        section = Section.query.get_or_404(section_Keys)
+        teaches = Teaches(instructor,section)
+        db.session.add(teaches)
+        db.session.commit()
+        flash('The teaches has been created', 'success')
+        return redirect(url_for('university.teach',id=instructor.ID,id2=section_Keys[0],id3=section_Keys[1],id4=section_Keys[2],id5=section_Keys[3]))
+    return render_template('teach/create.html',form=form)
+
+
 @university.route('/teaches/<id>/<id2>/<id3>/<id4>/<id5>')
 def teach(id=None,id2=None,id3=None,id4=None,id5=None):
     teach=Teaches.query.get_or_404([id,id2,id3,id4,id5])
