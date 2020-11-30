@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block container %}
+<div class="container">
+    <h1 class="text-center">Time Slots</h1>
+    <div class="row justify-content-center align-items-center">
+        {% for time_slot in time_slots.items %}
+        <div class="col-lg-6 col-md-4 col-sm-6 my-3">
+            <div class="model">
+                <a class="model-link py-2 px-3">
+                    <div>
+                        <div class="attr">Day</div>
+                        <div class="info">{{ time_slot.day }}</div>
+                    </div>
+                    <div class="d-flex justify-content-around w-100">
+                        <div>
+                            <div class="attr">Start</div>
+                            <div class="info">{{ time_slot['start_hr'] }}:{{ time_slot['start_min'] }}</div>
+                        </div>
+                        <div>
+                            <div class="attr">Finish</div>
+                            <div class="info">{{ time_slot['end_hr'] }}:{{ time_slot['end_min'] }}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+            <small>  
+                </small>
+        {% endfor %}
+    </div>
+    <div class="custom-paginate">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if time_slots.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('university.time_slots',
+                    page=time_slots.prev_num) }}">Previous Page</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">Previous Page</a>
+                </li>
+                {% endif %}
+                {% if time_slots.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('university.time_slots',
+        page=time_slots.next_num) }}">Next page </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">Next page</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

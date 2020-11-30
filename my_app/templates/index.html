@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block container %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        {% for model in models %}
+        <div class="col-lg-3 col-md-4 col-sm-6 my-3">
+            <div class="model">
+                <div class="model-name py-4 px-3">{{ model }}</div>
+                <div class="model-actions">
+                    <div class="model-list"><a class="model-link" href="/{{model}}">List</a></div>
+                    <div class="model-create"><a class="model-link" href="/{{model}}-create">Create</a></div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

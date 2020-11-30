@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block container %}
+<div class="container">
+    <h1 class="text-center">Takes</h1>
+    <div class="row justify-content-center align-items-center">
+        {% for take in takes.items %}
+        <div class="col-lg-3 col-md-4 col-sm-6 my-3">
+            <div class="model">
+                <a class="model-link py-2 px-3" href="{{ url_for('university.take' ,id=take.ID,id2=take.course_id,id3=take.sec_id,id4=take.semester,id5=take.year) }}">
+                    <div>
+                        <div class="attr">Student Name</div>
+                        <div class="info">{{take.student.name}}</div>
+                    </div>
+                    <div class="d-flex justify-content-around w-100">
+                        <div>
+                            <div class="attr">Course</div>
+                            <div class="info">{{ take['course_id'] }}</div>
+                        </div>
+                        <div>
+                            <div class="attr">Sec Id</div>
+                            <div class="info">{{ take['sec_id'] }}</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around w-100">
+                        <div>
+                            <div class="attr">Semester</div>
+                            <div class="info">{{ take['semester'] }}</div>
+                        </div>
+                        <div>
+                            <div class="attr">Year</div>
+                            <div class="info">{{ take['year'] }}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="custom-paginate">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if takes.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('university.takes',
+                    page=takes.prev_num) }}">Previous Page</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">Previous Page</a>
+                </li>
+                {% endif %}
+                {% if takes.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('university.takes',
+        page=takes.next_num) }}">Next page </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">Next page</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

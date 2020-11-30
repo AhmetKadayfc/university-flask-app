@@ -1,0 +1,143 @@
+body {
+    background: #ebf8fe;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #196999
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--primary-color);
+    padding: 10px 0;
+}
+
+a {
+    color: var(--primary-color);
+}
+
+input,
+select {
+    width: 100% !important;
+    background: transparent !important;
+    border: 2px solid var(--primary-color) !important;
+    padding: 5px !important;
+    border-radius: 0 !important;
+}
+
+select {
+    padding: 7px !important;
+}
+
+.btn-primary{
+    background: var(--primary-color) !important;
+    border: 1px solid var(--primary-color);
+    border-radius: 0;
+    padding: .5rem 1.75rem;
+}
+
+.model-name {
+    color: var(--primary-color) !important;
+    text-transform: capitalize;
+    font-weight: 500;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    transition: all 300ms ease-in-out;
+
+}
+
+.model .model-actions div {
+    width: 100%;
+    border-top: 1px solid var(--primary-color);
+}
+
+a.model-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 10px;
+    transition: all 250ms ease-in-out;
+}
+
+a.model-link:hover {
+    text-decoration: none;
+}
+
+.model {
+    border: 2px solid var(--primary-color);
+    transition: all 250ms ease-in-out;
+}
+
+.model:hover .model-name {
+    background: var(--primary-color);
+    color: #fff !important
+}
+
+.model .model-actions {
+    display: flex;
+}
+
+.model-list:first-child {
+    border-right: 1px solid var(--primary-color);
+}
+
+.model:hover .model-actions a:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.attr {
+    text-align: center;
+    font-size: 10px;
+    line-height: 9px;
+}
+
+.info {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.custom-paginate {
+    padding: 15px;
+}
+
+.custom-paginate .page-link {
+    color: var(--primary-color);
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    border-radius: 0 !important;
+    transition: all 150ms ease-in-out;
+}
+
+.custom-paginate .page-link:hover {
+    color: #fff;
+    background: var(--primary-color);
+}
+
+.custom-paginate .page-item.disabled .page-link {
+    background: transparent;
+}
+
+.notifications {
+    width: 400px;
+    position: absolute;
+    left: 20px;
+    bottom: 0;
+}
+
+label[for="csrf_token"]{
+    display: none;
+}
