@@ -22,6 +22,12 @@ class SectionForm(Form):
     classroom = SelectField('Classroom', coerce=str)
     time_slot_id = TextField('Time Slot', [validators.required()])
 
-class TeachesCreate(Form):
+class TeachesForm(Form):
     instructor = SelectField('Instructor',validators=[InputRequired()],coerce=str)
     section = SelectField('Section',validators=[InputRequired()],coerce=str)
+
+class StudentForm(Form):
+    ID = TextField('Student Id',[validators.required()])
+    name = TextField('Name',[validators.required()])
+    department = SelectField('Department',coerce=str)
+    tot_credit = TextField('Total Credit', [validators.length(min=0)])

@@ -119,9 +119,11 @@ class Student(db.Model):
 
     department = db.relationship('Department',backref = db.backref('students',lazy='dynamic'))
 
-    def __init__(self,name,tot_cred):
-        name
-        tot_cred
+    def __init__(self,ID,name,department,tot_cred):
+        self.ID = ID
+        self.name = name
+        self.department = department
+        self.tot_cred = tot_cred
 
     def __repr__(self):
         return '<Student %s>' %self.ID

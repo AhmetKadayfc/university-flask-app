@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify,render_template,flash,redirect,url_for
 from my_app import app,db
 from my_app.university.models import Classroom,Department,Course,Instructor,Section,Teaches,Student,Takes,Advisor,Time_Slot,Prereq
-from my_app.university.formModels import CourseForm, InstructorForm, SectionForm,TeachesCreate
+from my_app.university.formModels import CourseForm, InstructorForm, SectionForm,TeachesForm, StudentForm
 import ast
 
 university = Blueprint('university',__name__)
@@ -171,7 +171,7 @@ def sections(page=1):
 #teaches
 @university.route('/teaches-create',methods=['GET','POST'])
 def teaches_create():
-    form = TeachesCreate(request.form, csrf_enable=False)
+    form = TeachesForm(request.form, csrf_enable=False)
     instructors = [(i.ID,i.name) for i in Instructor.query.all()]
     sections = [([s.course_id,s.sec_id,s.semester,str(s.year)],s.course_id) for s in Section.query.all()]
 
@@ -202,6 +202,24 @@ def teaches(page=1):
 
 
 #student
+@university.route('/student-create', methods = ['GET','POST'])
+def student_create():
+    form = StudentForm(request.form, csrf_enable = False)
+    departments = [(d.dept_name,d.dept_name) for d in Department.query.all()]
+    form.department.choices = departments
+
+    if request.method == 'POST':
+        ID = request.form.get('ID')
+        name = request.form.get('name')
+        department = Department.query.get_or_404(request.form.get('department'))
+        tot_credit = request.form.get('tot_credit')
+        student = Student(ID,name,department,tot_credit)
+        db.session.add(student)
+        db.session.commit()
+        flash('The student %s has been created' %name,'success')
+        return redirect(url_for('university.student', id=ID))
+    return render_template('student/create.html',form=form)
+
 @university.route('/student/<id>')
 def student(id):
     student = Student.query.get_or_404(id)
