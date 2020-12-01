@@ -159,6 +159,10 @@ class Advisor(db.Model):
     student = db.relationship('Student',backref=db.backref('advisors',lazy='dynamic'))
     instructor = db.relationship('Instructor',backref=db.backref('advisors',lazy='dynamic'))
 
+    def __init__(self,student,instructor):
+        self.student = student
+        self.instructor = instructor
+
     def __repr__(self):
         return '<Advisor %s>'%self.s_ID
 

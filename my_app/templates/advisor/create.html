@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block container %}
+
+<div class="container">
+    <form action="{{ url_for('university.advisor_create') }}" method="POST">
+        <div class="form-row">
+            {% for field in form %}
+            <div class="form-group col-md-6">
+                {{ field.label }} {% if field.flags.required %}*{% endif %}
+                {{ field }}
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+
+{% endblock %}

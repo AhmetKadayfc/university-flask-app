@@ -1,7 +1,7 @@
 from flask import Blueprint,request,jsonify,render_template,flash,redirect,url_for
 from my_app import app,db
 from my_app.university.models import Classroom,Department,Course,Instructor,Section,Teaches,Student,Takes,Advisor,Time_Slot,Prereq
-from my_app.university.formModels import CourseForm, InstructorForm, SectionForm,TeachesForm, StudentForm,TakesForm
+from my_app.university.formModels import CourseForm, InstructorForm, SectionForm,TeachesForm, StudentForm,TakesForm,AdvisorForm
 import ast
 
 university = Blueprint('university',__name__)
@@ -268,6 +268,27 @@ def takes(page=1):
 
 
 #advisor
+@university.route('/advisor-create', methods = {'GET', 'POST'})
+def advisor_create():
+    form = AdvisorForm(request.form, csrf_enable=False)
+
+    students = [(s.ID,s.name) for s in Student.query.all()]
+    instructors = [(i.ID,i.name) for i in Instructor.query.all()]
+
+    form.student.choices = students
+    form.instructor.choices = instructors
+
+    if request.method == 'POST':
+        student = Student.query.get_or_404(request.form.get('student'))
+        instructor = Instructor.query.get_or_404(request.form.get('instructor'))
+        advisor = Advisor(student,instructor)
+        db.session.add(advisor)
+        db.session.commit()
+        flash('The advisor has been created','success')
+        return redirect(url_for('university.advisor',id=student.ID))
+    return render_template('advisor/create.html',form=form)
+        
+
 @university.route('/advisor/<id>')
 def advisor(id):
     advisor = Advisor.query.get_or_404(id)

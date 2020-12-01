@@ -36,3 +36,7 @@ class TakesForm(Form):
     student = SelectField('Student', coerce=str)
     section = SelectField('Section', coerce=str)
     grade = IntegerField('Grade')
+
+class AdvisorForm(Form):
+    student = SelectField('Student',coerce=str)
+    instructor = SelectField('Instructor',coerce=str)
