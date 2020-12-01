@@ -144,8 +144,10 @@ class Takes(db.Model):
         db.ForeignKeyConstraint(['course_id','sec_id','semester','year'],['section.course_id','section.sec_id','section.semester','section.year'],ondelete='CASCADE'),
     )
 
-    def __init__(self,grade):
-        grade
+    def __init__(self,student,section,grade):
+        self.student = student
+        self.section = section
+        self.grade = grade
 
     def __repr__(self):
         return '<Takes %s>'%(self.ID,self.course_id,self.sec_id,self.semester,self.year)

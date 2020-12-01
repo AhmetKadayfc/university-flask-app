@@ -31,3 +31,8 @@ class StudentForm(Form):
     name = TextField('Name',[validators.required()])
     department = SelectField('Department',coerce=str)
     tot_credit = TextField('Total Credit', [validators.length(min=0)])
+
+class TakesForm(Form):
+    student = SelectField('Student', coerce=str)
+    section = SelectField('Section', coerce=str)
+    grade = IntegerField('Grade')
