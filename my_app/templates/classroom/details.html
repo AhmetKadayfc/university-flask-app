@@ -59,5 +59,47 @@
             {% endif %}
         </div>
     </div>
+    <div class="model-children">
+        <div class="model-child">
+            {% if not classroom.sections.count() == 0 %}
+            <div class="model-child-header d-flex justify-content-between mt-5">
+                <h5 class="model-child-title mb-0 p-0">Sections</h5>
+                <div class="model-child-count"> Count: {{classroom.sections.count()}}</div>
+            </div>
+            <div class="model-container table-responsive-sm">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-primary">
+                            <th scope="col">Section Id</th>
+                            <th scope="col">Course Id</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Year</th>
+                            <th scope="col">Building</th>
+                            <th scope="col">Room Number</th>
+                            <th scope="col">Time Slot Id</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in classroom.sections %}
+                        <tr>
+                                <th scope="row">{{ s.sec_id }}</th>
+                                <td>{{ s.course_id }}</td>
+                                <td>{{ s.semester }}</td>
+                                <td>{{ s.year }}</td>
+                                <td>{{ s.building }}</td>
+                                <td>{{ s.room_number }}</td>
+                                <td>{{ s.time_slot_id }}</td>
+                                <td><a href="{{ url_for('university.section' ,id=s.course_id,id2=s.sec_id,id3=s.semester,id4=s.year) }}">Details</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <h4 class="model-child-empty text-center mt-5">Not have a section</h4>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}
