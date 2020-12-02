@@ -80,6 +80,17 @@ a.model-link:hover {
     border: 2px solid var(--primary-color);
     transition: all 250ms ease-in-out;
 }
+.model-details{
+    border: 2px solid var(--primary-color);
+    padding: 20px;
+}
+.model-details > div {
+    width: 100%;
+    border-right: 1px solid var(--primary-color);
+}
+.model-details > div:last-child{
+    border-right: 0;
+}
 
 .model:hover .model-name {
     background: var(--primary-color);
@@ -99,6 +110,13 @@ a.model-link:hover {
     color: #fff;
 }
 
+.model-details .attr{
+    font-size: 12px;
+}
+.model-details .info{
+    font-size: 18px;
+    margin-bottom: 0;
+}
 .attr {
     text-align: center;
     font-size: 10px;
@@ -140,4 +158,15 @@ a.model-link:hover {
 
 label[for="csrf_token"]{
     display: none;
+}
+
+.table th[scope="col"]{
+    color: #fff !important;
+    font-weight: 500;
+}
+
+.model-child-empty{
+    background: var(--primary-color);
+    padding: 20px;
+    color: #fff;
 }

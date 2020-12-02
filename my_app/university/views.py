@@ -306,7 +306,6 @@ def advisors(page=1):
 @university.route('/time_slot/page/<int:page>')
 def time_slots(page=1):
     time_slots = Time_Slot.query.paginate(page,8)
-    res={}
     return render_template('time_slots.html', time_slots=time_slots)
 
     
