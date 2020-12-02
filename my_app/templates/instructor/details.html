@@ -1,8 +1,93 @@
 {% extends 'layout.html' %}
 
 {% block container %}
-
-{{ instructor['name'] }}
-{{ instructor['dept_name'] }}
-{{ instructor['salary'] }}
+<div class="container">
+    <h4 class="p-0 m-0">Details:</h4>
+    <div class="d-flex justify-content-around w-100 model-details">
+        <div>
+            <div class="attr">Name</div>
+            <div class="info">{{ instructor['name'] }}</div>
+        </div>
+        <div>
+            <div class="attr">Department Name</div>
+            <div class="info"> {{ instructor['dept_name'] }} </div>
+        </div>
+        <div>
+            <div class="attr">Salary</div>
+            <div class="info">{{ instructor['salary'] }}</div>
+        </div>
+    </div>
+    <div class="model-children">
+        <div class="model-child">
+            {% if not instructor.teaches.count() == 0 %}
+            <div class="model-child-header d-flex justify-content-between mt-5">
+                <h5 class="model-child-title mb-0 p-0">Teaches</h5>
+                <div class="model-child-count"> Count: {{instructor.teaches.count()}}</div>
+            </div>
+            <div class="model-container table-responsive-sm">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-primary">
+                            <th scope="col">Section Id</th>
+                            <th scope="col">Course Id</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Year</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in instructor.teaches %}
+                        <tr>
+                                <th scope="row">{{ s.sec_id }}</th>
+                                <td>{{ s.course_id }}</td>
+                                <td>{{ s.semester }}</td>
+                                <td>{{ s.year }}</td>
+                                <td><a href="{{ url_for('university.section' ,id=s.course_id,id2=s.sec_id,id3=s.semester,id4=s.year) }}">Details</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <h4 class="model-child-empty text-center mt-5">Not have a teaches</h4>
+            {% endif %}
+        </div>
+    </div>
+    <div class="model-children">
+        <div class="model-child">
+            {% if not instructor.advisors.count() == 0 %}
+            <div class="model-child-header d-flex justify-content-between mt-5">
+                <h5 class="model-child-title mb-0 p-0">Advisors</h5>
+                <div class="model-child-count"> Count: {{instructor.advisors.count()}}</div>
+            </div>
+            <div class="model-container table-responsive-sm">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-primary">
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Department Name</th>
+                            <th scope="col">Total Credit</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in instructor.advisors %}
+                        <tr>
+                                <th scope="row">{{ s.student.ID }}</th>
+                                <td>{{ s.student.name }}</td>
+                                <td>{{ s.student.dept_name }}</td>
+                                <td>{{ s.student.tot_cred }}</td>
+                                <td><a href="{{ url_for('university.advisor' ,id=s.s_ID) }}">Details</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <h4 class="model-child-empty text-center mt-5">Not have a advisors</h4>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
