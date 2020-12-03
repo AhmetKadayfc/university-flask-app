@@ -92,6 +92,18 @@ a.model-link:hover {
     border-right: 0;
 }
 
+@media only screen and (max-width:992px){
+    .model-details > div{
+        border: 0px;
+    }
+    .model-details > div:nth-child(odd){
+        border-right: 1px solid var(--primary-color);
+    }
+    .model-details .info{
+        margin-bottom: 10px !important;
+    }
+}
+
 .model:hover .model-name {
     background: var(--primary-color);
     color: #fff !important

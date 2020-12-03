@@ -2,10 +2,103 @@
 
 {% block container %}
 
-{{ section['course_id'] }}
-{{ section['sec_id'] }}
-{{ section['semester'] }}
-{{ section['year'] }}
-{{ section['building'] }}
-{{ section['room_number'] }}
+<div class="container">
+    <h4 class="p-0 m-0">Details:</h4>
+    <div class="row m-0 justify-content-around w-100 model-details">
+        <div class="col-6 col-md-2">
+            <div class="attr">Course Id</div>
+            <div class="info">{{ section['course_id'] }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Section Id</div>
+            <div class="info"> {{ section['sec_id'] }} </div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Semester</div>
+            <div class="info">{{ section['semester'] }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Year</div>
+            <div class="info">{{ section['year'] }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Building</div>
+            <div class="info">{{ section['building'] }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Room Number</div>
+            <div class="info">{{ section['room_number'] }}</div>
+        </div>
+    </div>
+    <div class="model-children">
+        <div class="model-child">
+            {% if not section.teaches.count() == 0 %}
+            <div class="model-child-header d-flex justify-content-between mt-5">
+                <h5 class="model-child-title mb-0 p-0">Teaches</h5>
+                <div class="model-child-count"> Count: {{section.teaches.count()}}</div>
+            </div>
+            <div class="model-container table-responsive-sm">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-primary">
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Salary</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in section.teaches %}
+                        <tr>
+                                <th scope="row">{{ s.instructor.ID }}</th>
+                                <td>{{ s.instructor.name }}</td>
+                                <td>{{ s.instructor.dept_name }}</td>
+                                <td>{{ s.instructor.salary }}</td>
+                                <td><a href="{{ url_for('university.instructor' ,id=s.ID) }}">Details</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <h4 class="model-child-empty text-center mt-5">Not have a teaches</h4>
+            {% endif %}
+        </div>
+        <div class="model-child">
+            {% if not section.takes.count() == 0 %}
+            <div class="model-child-header d-flex justify-content-between mt-5">
+                <h5 class="model-child-title mb-0 p-0">Takes</h5>
+                <div class="model-child-count"> Count: {{section.takes.count()}}</div>
+            </div>
+            <div class="model-container table-responsive-sm">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-primary">
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Total Credit</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in section.takes %}
+                        <tr>
+                                <th scope="row">{{ s.student.ID }}</th>
+                                <td>{{ s.student.name }}</td>
+                                <td>{{ s.student.dept_name }}</td>
+                                <td>{{ s.student.tot_cred }}</td>
+                                <td><a href="{{ url_for('university.student' ,id=s.ID) }}">Details</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <h4 class="model-child-empty text-center mt-5">Not have a teaches</h4>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
