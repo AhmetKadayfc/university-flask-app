@@ -76,7 +76,7 @@
                                 <td>{{ s.student.name }}</td>
                                 <td>{{ s.student.dept_name }}</td>
                                 <td>{{ s.student.tot_cred }}</td>
-                                <td><a href="{{ url_for('university.advisor' ,id=s.s_ID) }}">Details</a></td>
+                                <td><a href="{{ url_for('university.student' ,id=s.student.ID) }}">Details</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
