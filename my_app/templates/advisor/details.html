@@ -1,9 +1,25 @@
 {% extends 'layout.html' %}
 
 {% block container %}
-
-{{ advisor['i_ID'] }}
-{{ advisor.instructor.name }}
-{{ advisor['s_ID'] }}
-{{ advisor.student.name }}
+<div class="container">
+    <h4 class="p-0 m-0">Details:</h4>
+    <div class="row m-0 justify-content-around w-100 model-details">
+        <div class="col-6 col-md-2">
+            <div class="attr">Instructor Id</div>
+            <div class="info">{{ advisor['i_ID'] }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Instructor</div>
+            <div class="info"> {{ advisor.instructor.name }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Student Id</div>
+            <div class="info">{{ advisor['s_ID'] }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Student</div>
+            <div class="info">{{ advisor.student.name }}</div>
+        </div>
+    </div>
+</div>
 {% endblock %}

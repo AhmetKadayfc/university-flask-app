@@ -305,8 +305,19 @@ def advisors(page=1):
 @university.route('/time_slot')
 @university.route('/time_slot/page/<int:page>')
 def time_slots(page=1):
-    time_slots = Time_Slot.query.paginate(page,8)
-    return render_template('time_slots.html', time_slots=time_slots)
+    time_slots = Time_Slot.query.all()
+    res = {}
+    for t in time_slots:
+        pk= t.time_slot_id+t.day+str(t.start_hr)+str(t.start_min)
+        res[pk] = {
+            'time_slot_id' : t.time_slot_id,
+            'day' : t.day,
+            'start_hr' : int(t.start_hr),
+            'start_min': int(t.start_min),
+            'end_hr' : int(t.end_hr),
+            'end_min': int(t.end_min)
+        }
+    return render_template('time_slots.html', time_slots=res)
 
     
 #prereq    

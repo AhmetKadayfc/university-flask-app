@@ -1,10 +1,29 @@
 {% extends 'layout.html' %}
 
 {% block container %}
-
-{{ teach['ID'] }}
-{{ teach['course_id'] }}
-{{ teach['sec_id'] }}
-{{ teach['semester'] }}
-{{ teach['year'] }}
+<div class="container">
+    <h4 class="p-0 m-0">Details:</h4>
+    <div class="row m-0 justify-content-around w-100 model-details">
+        <div class="col-6 col-md-2">
+            <div class="attr">ID</div>
+            <div class="info">{{ teach['ID'] }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Course Id</div>
+            <div class="info"> {{ teach['course_id'] }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Section Id</div>
+            <div class="info">{{ teach['sec_id'] }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Semester</div>
+            <div class="info">{{ teach['semester'] }}</div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="attr">Year</div>
+            <div class="info">{{ teach['year'] }}</div>
+        </div>
+    </div>
+</div>
 {% endblock %}
