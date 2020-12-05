@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block container %}
+<div class="container text-center pt-5">
+    <h2 class="display-1 font-weight-bold">404</h2>
+    <h4>Hola Friend! Looks like in your quest you have reached a
+        location which does not exist yet.</h4>
+      <p>To continue, either check your map location (URL) or go
+        back <a href="{{ url_for('university.home') }}">home</a></p>
+</div>
+{% endblock %}

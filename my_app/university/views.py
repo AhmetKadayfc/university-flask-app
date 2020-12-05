@@ -326,3 +326,7 @@ def time_slots(page=1):
 def prereqs(page=1):
     prereqs = Prereq.query.paginate(page,8)
     return render_template('prereqs.html',prereqs=prereqs)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'),404
