@@ -1,6 +1,6 @@
 from flask_wtf import Form
-from wtforms import TextField,SelectField, DecimalField, IntegerField,validators
-from wtforms.validators import InputRequired
+from wtforms import TextField,SelectField, DecimalField, IntegerField,validators,PasswordField
+from wtforms.validators import InputRequired,EqualTo
 
 class CourseForm(Form):
     course_id = TextField('Course Id', [validators.required()])
@@ -40,3 +40,12 @@ class TakesForm(Form):
 class AdvisorForm(Form):
     student = SelectField('Student',coerce=str)
     instructor = SelectField('Instructor',coerce=str)
+
+class RegisterationForm(Form):
+    username = TextField('Username', [InputRequired()])
+    password = PasswordField('Password',[InputRequired(),EqualTo('confirm',message='Passwords must match')])
+    confirm = PasswordField('Confirm Password', [InputRequired()])
+
+class LoginForm(Form):
+    username = TextField('Username',[InputRequired()])
+    password = PasswordField('Password',[InputRequired()])

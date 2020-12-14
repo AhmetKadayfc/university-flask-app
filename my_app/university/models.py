@@ -1,4 +1,5 @@
 from my_app import db
+from werkzeug.security import generate_password_hash,check_password_hash
 
 class Classroom(db.Model):
     building=db.Column(db.String(15),primary_key=True)
@@ -181,8 +182,8 @@ class Time_Slot(db.Model):
     )
 
     def __init__(self,end_hr,end_min):
-        end_hr
-        end_min
+        self.end_hr = end_hr
+        self.end_min = end_min
 
     def __repr__(self):
         return '<Time_Slot %s>'%(self.time_slot_id,self.day,self.start_hr,self.start_min)
@@ -202,3 +203,15 @@ class Prereq(db.Model):
 
     def __repr__(self):
         return '<Prereq %s>'%(self.course_id,self.prereq_id)
+
+class User(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    username = db.Column(db.String(50))
+    pwdhash = db.Column(db.String())
+
+    def __init__(self,username,password):
+        self.username = username
+        self.pwdhash = generate_password_hash(password)
+
+    def check_password(self,password):
+        return check_password_hash(self.pwdhash,password)

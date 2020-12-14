@@ -1,10 +1,14 @@
-from flask import Blueprint,request,jsonify,render_template,flash,redirect,url_for
+from flask import Blueprint,request,jsonify,render_template,flash,redirect,url_for,session
 from my_app import app,db
-from my_app.university.models import Classroom,Department,Course,Instructor,Section,Teaches,Student,Takes,Advisor,Time_Slot,Prereq
-from my_app.university.formModels import CourseForm, InstructorForm, SectionForm,TeachesForm, StudentForm,TakesForm,AdvisorForm
+from my_app.university.models import Classroom,Department,Course,Instructor,Section,Teaches,Student,Takes,Advisor,Time_Slot,Prereq,User
+from my_app.university.formModels import CourseForm, InstructorForm, SectionForm,TeachesForm, StudentForm,TakesForm,AdvisorForm,RegisterationForm,LoginForm
 import ast
 
 university = Blueprint('university',__name__)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'),404
 
 @university.route('/')
 @university.route('/home')
@@ -319,7 +323,7 @@ def time_slots(page=1):
         }
     return render_template('time_slots.html', time_slots=res)
 
-    
+
 #prereq    
 @university.route('/prereq')
 @university.route('/prereq/page/<int:page>')
@@ -327,6 +331,58 @@ def prereqs(page=1):
     prereqs = Prereq.query.paginate(page,8)
     return render_template('prereqs.html',prereqs=prereqs)
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'),404
+
+#auth
+@university.route('/register', methods=['GET','POST'])
+def register():
+    if  session.get('username'):
+        flash('You are alredy logged in','info')
+        redirect(url_for('university.home'))
+
+    form = RegisterationForm(request.form)
+
+    if form.validate_on_submit():
+        username = request.get('username')
+        password = request.get('password')
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            flash('This username has been already taken. Try another one','warning')
+            return render_template('auth/register.html',form=form)
+        user = User(username,password)
+        db.session.add(user)
+        db.session.commit()
+        flash('You are now registered. Please login.','success')
+        return redirect(url_for('university.login'))
+    if form.errors:
+        flash(form.errors,'danger')
+
+    return render_template('auth/register.html',form=form)
+
+@university.route('/login', methods=['GET','POST'])
+def login():
+    form = LoginForm(request.form)
+
+    if form.validate_on_submit():
+        username = request.get('username')
+        password = request.get('password')
+
+        existing_user = User.query.filter_by(username=username).first()
+        if  not (existing_user and existing_user.check_password(password)):
+            flash('Invalid username or password. Please try again','warning')
+            return render_template('auth/login.html',form=form)
+        
+        session['username'] = username
+        flash('You have successfully logged in','success')
+        return render_template(url_for('university.home'))
+
+    if form.errors:
+        flash(form.errors,'danger')
+
+    return render_template('auth/login.html', form=form)
+
+@university.route('/logout')
+def logout():
+    if 'username' in db.session:
+        db.session.pop('username')
+        flash('You have successfully logged out','success')
+        return redirect(url_for('auth.home'))
