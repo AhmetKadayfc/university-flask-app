@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block container %}
+<div class="container">
+    <form action="{{ url_for('university.register') }}" method="post">
+        <div class="form-row w-50 mx-auto justify-content-center">
+            {% for field in form %}
+            <div class="form-group col-12">
+                {{field.label}}{% if field.flags.required %}*{% endif %}
+                {{field}}
+            </div>
+            {% endfor %}
+            <button class="btn-primary w-50" type="submit">Register</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

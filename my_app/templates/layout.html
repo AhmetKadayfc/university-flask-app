@@ -16,7 +16,24 @@
   <div class="container-fluid p-0">
     <div class="header">
       <div class="row justify-content-center w-100">
-        <div class="col-md-4 logo"><a href="/"><img class="img-fluid" src="{{url_for('static', filename='images/logo.jpg')}}" alt="logo"></a></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4 logo"><a href="/"><img class="img-fluid"
+              src="{{url_for('static', filename='images/logo.jpg')}}" alt="logo"></a></div>
+        <div class="col-md-4">
+          <div class="d-flex justify-content-center align-items-center h-100">
+            {% if session.username %}
+            <div class="btn-group">
+              <a class="btn btn-outline-primary disabled">{{ session.username }}</a>
+              <a href="{{url_for('university.logout')}}" class="btn btn-danger">Çıkış</a>
+            </div>
+            {% else %}
+            <div class="btn-group">
+              <a href="{{url_for('university.login')}}" class="btn btn-outline-primary">Login</a>
+              <a href="{{url_for('university.register')}}" class="btn btn-outline-primary">Register</a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
       </div>
     </div>
     {% block container %} {% endblock %}
@@ -24,11 +41,10 @@
   <div class="notifications">
     {% for category, message in get_flashed_messages
       (with_categories=true) %}
-      <div class="alert alert-{{category}} alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert"
-          aria-hidden="true">&times;</button>
-        {{ message }}
-      </div>
+    <div class="alert alert-{{category}} alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{ message }}
+    </div>
     {% endfor %}
   </div>
 

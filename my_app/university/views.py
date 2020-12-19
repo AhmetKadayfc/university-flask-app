@@ -342,8 +342,8 @@ def register():
     form = RegisterationForm(request.form)
 
     if form.validate_on_submit():
-        username = request.get('username')
-        password = request.get('password')
+        username = request.form.get('username')
+        password = request.form.get('password')
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             flash('This username has been already taken. Try another one','warning')
@@ -363,8 +363,8 @@ def login():
     form = LoginForm(request.form)
 
     if form.validate_on_submit():
-        username = request.get('username')
-        password = request.get('password')
+        username = request.form.get('username')
+        password = request.form.get('password')
 
         existing_user = User.query.filter_by(username=username).first()
         if  not (existing_user and existing_user.check_password(password)):
@@ -373,7 +373,7 @@ def login():
         
         session['username'] = username
         flash('You have successfully logged in','success')
-        return render_template(url_for('university.home'))
+        return redirect(url_for('university.home'))
 
     if form.errors:
         flash(form.errors,'danger')
@@ -382,7 +382,7 @@ def login():
 
 @university.route('/logout')
 def logout():
-    if 'username' in db.session:
-        db.session.pop('username')
+    if 'username' in session:
+        session.pop('username')
         flash('You have successfully logged out','success')
-        return redirect(url_for('auth.home'))
+        return redirect(url_for('university.home'))
