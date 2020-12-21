@@ -21,9 +21,9 @@
               src="{{url_for('static', filename='images/logo.jpg')}}" alt="logo"></a></div>
         <div class="col-md-4">
           <div class="d-flex justify-content-center align-items-center h-100">
-            {% if session.username %}
+            {% if current_user.is_authenticated %}
             <div class="btn-group">
-              <a class="btn btn-outline-primary disabled">{{ session.username }}</a>
+              <a class="btn btn-outline-primary disabled">{{ current_user.username }}</a>
               <a href="{{url_for('university.logout')}}" class="btn btn-danger">Çıkış</a>
             </div>
             {% else %}

@@ -1,10 +1,20 @@
-from flask import Blueprint,request,jsonify,render_template,flash,redirect,url_for,session
+from flask import Blueprint,request,jsonify,render_template,flash,redirect,url_for,session,g
+from flask_login import current_user,login_user,logout_user,login_required
+from my_app import login_manager
 from my_app import app,db
 from my_app.university.models import Classroom,Department,Course,Instructor,Section,Teaches,Student,Takes,Advisor,Time_Slot,Prereq,User
 from my_app.university.formModels import CourseForm, InstructorForm, SectionForm,TeachesForm, StudentForm,TakesForm,AdvisorForm,RegisterationForm,LoginForm
 import ast
 
 university = Blueprint('university',__name__)
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+@university.before_request
+def get_current_user():
+    g.user = current_user
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -336,8 +346,8 @@ def prereqs(page=1):
 @university.route('/register', methods=['GET','POST'])
 def register():
     if  session.get('username'):
-        flash('You are alredy logged in','info')
-        redirect(url_for('university.home'))
+        flash('You are already logged in','info')
+        return redirect(url_for('university.home'))
 
     form = RegisterationForm(request.form)
 
@@ -360,6 +370,10 @@ def register():
 
 @university.route('/login', methods=['GET','POST'])
 def login():
+    if current_user.is_authenticated:
+        flash('You are already logged in','info')  
+        return redirect(url_for('university.home'))  
+
     form = LoginForm(request.form)
 
     if form.validate_on_submit():
@@ -371,7 +385,7 @@ def login():
             flash('Invalid username or password. Please try again','warning')
             return render_template('auth/login.html',form=form)
         
-        session['username'] = username
+        login_user(existing_user)
         flash('You have successfully logged in','success')
         return redirect(url_for('university.home'))
 
@@ -381,8 +395,8 @@ def login():
     return render_template('auth/login.html', form=form)
 
 @university.route('/logout')
+@login_required
 def logout():
-    if 'username' in session:
-        session.pop('username')
-        flash('You have successfully logged out','success')
-        return redirect(url_for('university.home'))
+    logout_user()
+    flash('You have successfully logged out','success')
+    return redirect(url_for('university.home'))
